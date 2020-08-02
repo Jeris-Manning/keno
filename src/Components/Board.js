@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Square from "./Square";
-import blankCard from "./blankCard";
 
-const Board = ({ handleClick, state }) => {
+const Board = (props) => {
+
+  const board = props.boardState
+
     return (
         <GameBoard>
-            {state.map((state) => (
-                <Square
-                    val={state.id}
-                    handleClick={handleClick}
-                    state={state}
-                    picked = {state.picked}
-                />
+
+            {board.map((state) => (
+                <Square key={state.id} id={state.id} value={state.value} onClick={props.handleClick} drawn= {state.drawn}>
+                    {state.value}
+                </Square>
             ))}
         </GameBoard>
     );
@@ -28,4 +27,17 @@ const GameBoard = styled.div`
     justify-content: space-around;
     align-items: center;
     background: darkslategray;
+`;
+
+const Square = styled.div`
+    width: 80px;
+    height: 80px;
+    margin: 2px;
+    background: steelblue;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: ${(props) => (props.drawn == true ? "red" : "white")};
 `;

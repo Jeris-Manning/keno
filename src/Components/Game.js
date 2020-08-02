@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Board from "./Board";
-import blankCard from "./blankCard";
 
 const Game = () => {
-    const [boardState, setBoardState] = useState(blankCard);
+    const baseState = [];
+    for (let i = 0; i < 80; i++) {
+        baseState.push({ id: i, value: i + 1, picked: false, drawn: false });
+    }
+    const [boardState, setBoardState] = useState(baseState);
+    console.log(boardState);
 
-    const handleClick = (e) => {
-        // console.log(e.target.innerHTML)
-        let temp = e.target.innerHTML - 1;
-        console.log(temp);
-        setBoardState(boardState, boardState[temp]['picked'] = true);
-        console.log(boardState);
-    };
+    function handleClick(e) {
+        setBoardState([...boardState], (boardState[e.target.id]["drawn"] = !boardState[e.target.id]["drawn"]));
+    }
 
     return (
-        <GameWrap>
-            <Board handleClick={handleClick} state={boardState} />
-        </GameWrap>
+        <div>
+            <Board boardState={boardState} handleClick={handleClick} />
+        </div>
     );
 };
 
 export default Game;
-
-const GameWrap = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: darkslateblue;
-    min-height: 100vh;
-`;
