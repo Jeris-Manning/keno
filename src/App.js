@@ -1,16 +1,13 @@
-import React from "react";
-import Board from "./Components/Board";
-import logo from "./logo.svg";
+import React, { Fragment } from "react";
 import "./App.css";
+import Game from "./Components/Game";
+import Board from "./Components/Board";
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-            </header>
-            <Board />
-        </div>
+        <Game>
+            <Board></Board>
+        </Game>
     );
 }
 

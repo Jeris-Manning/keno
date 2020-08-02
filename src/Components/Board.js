@@ -1,18 +1,31 @@
 import React from "react";
+import styled from "styled-components";
+import Square from "./Square";
+import blankCard from "./blankCard";
 
-const board = () => {
-    const squares = [];
-    for (let i = 0; i < 80; i++) {
-        squares[i] = i + 1;
-    }
-
+const Board = ({ handleClick, state }) => {
     return (
-        <div>
-            {squares.map((num) => (
-                <div>{num}</div>
+        <GameBoard>
+            {state.map((state) => (
+                <Square
+                    val={state.id}
+                    handleClick={handleClick}
+                    state={state}
+                    picked = {state.picked}
+                />
             ))}
-        </div>
+        </GameBoard>
     );
 };
 
-export default board;
+export default Board;
+
+const GameBoard = styled.div`
+    width: 890px;
+    height: 710px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background: darkslategray;
+`;
