@@ -9,7 +9,7 @@ const Board = (props) => {
         <GameBoard>
 
             {board.map((state) => (
-                <Square key={state.id} id={state.id} value={state.value} onClick={props.handleClick} drawn= {state.drawn}>
+                <Square key={state.id} id={state.id} value={state.value} onClick={props.handleClick} picked= {state.picked}>
                     {state.value}
                 </Square>
             ))}
@@ -39,5 +39,5 @@ const Square = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 3rem;
-    color: ${(props) => (props.drawn == true ? "red" : "white")};
+    color: ${(props) => (props.picked == true ? "red" : "white")};
 `;
