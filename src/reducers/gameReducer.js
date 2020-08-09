@@ -36,8 +36,6 @@ const gameReducer = function (state, action) {
                     drawn: false,
                 },
             };
-        default:
-            return state;
     }
 };
 

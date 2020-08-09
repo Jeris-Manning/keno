@@ -19,10 +19,12 @@ function App() {
         });
 
         let draws = DrawEngine();
+        let timer = 0;
 
         draws.forEach((num) => {
             num = num.toString();
-            dispatch({ type: "DRAW", num });
+            setTimeout(() => dispatch({ type: "DRAW", num }), timer);
+            timer += 300;
         });
     };
 
