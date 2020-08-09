@@ -36,6 +36,15 @@ const gameReducer = function (state, action) {
                     drawn: false,
                 },
             };
+        case "PICKRESET":
+            return {
+                ...state,
+                [action.num]: {
+                    key: action.num,
+                    clicked: false,
+                    drawn: false,
+                },
+            };
         default:
             return state;
     }
