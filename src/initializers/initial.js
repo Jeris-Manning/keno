@@ -1,16 +1,17 @@
 let master = []
-let game = {};
-let tracker = {};
+let board = {};
+let gameState = {};
 
 for (let i = 1; i <= 80; i++) {
   let j = i.toString()
-    game[j] = { key: j, clicked: false, drawn: false };
+    board[j] = { key: j, clicked: false, drawn: false };
 }
 
-tracker.picks = 0;
+gameState.picks = 0;
+gameState.drawing = false;
 
-master[0] = {...game}
-master[1] = {...tracker}
+master[0] = {...board}
+master[1] = {...gameState}
 
 
 export default master

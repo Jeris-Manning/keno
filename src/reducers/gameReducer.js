@@ -1,49 +1,29 @@
 const gameReducer = function (state, action) {
     switch (action.type) {
-        case "SELECT":
+        case "INCREASEPICKCOUNT":
             return {
                 ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: true,
-                    drawn: state[action.num]["drawn"],
-                },
+                picks: state.picks + 1,
             };
-        case "DESELECT":
+        case "DECREASEPICKCOUNT":
             return {
                 ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: false,
-                    drawn: state[action.num]["drawn"],
-                },
+                picks: state.picks - 1,
             };
-        case "DRAW":
+        case "RESETPICKCOUNT":
             return {
                 ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: state[action.num]["clicked"],
-                    drawn: true,
-                },
+                picks: 0,
             };
-        case "DRAWRESET":
+        case "STARTDRAWING":
             return {
                 ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: state[action.num]["clicked"],
-                    drawn: false,
-                },
+                drawing: true,
             };
-        case "PICKRESET":
+        case "FINISHDRAWING":
             return {
                 ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: false,
-                    drawn: false,
-                },
+                drawing: false,
             };
         default:
             return state;

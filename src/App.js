@@ -1,44 +1,42 @@
 import React, { useReducer, useState } from "react";
 import styled from "styled-components";
 import master from "./initializers/initial";
+import boardReducer from "./reducers/boardReducer";
 import gameReducer from "./reducers/gameReducer";
 import DrawEngine from "./Components/DrawEngine";
 
 function App() {
-    const [state, dispatch] = useReducer(gameReducer, master[0]);
-    const [pickCount, setPickCount] = useState(0);
+    const [board, dispatchBoard] = useReducer(boardReducer, master[0]);
+    const [game, dispatchGame] = useReducer(gameReducer, master[1]);
 
-    // const handleClick = (num) => {
-    //     state[num]["clicked"]
-    //         ? dispatch({ type: "DESELECT", num })
-    //         : pickCount < 10
-    //         ? dispatch({ type: "SELECT", num})
-    //         : console.log("pick error");
-    // };
     const handleClick = (num) => {
-        resetDraws();
-        if (state[num]["clicked"]) {
-            setPickCount(pickCount - 1);
-            dispatch({ type: "DESELECT", num });
-        } else if (state[num]["clicked"] == false && pickCount < 10) {
-            setPickCount(pickCount + 1);
-            dispatch({ type: "SELECT", num });
-        } else {
-            console.log("Too much picks mr. greedy face");
+        if (game.drawing === false) {
+            resetDraws();
+            if (board[num]["clicked"]) {
+                dispatchGame({ type: "DECREASEPICKCOUNT" });
+                dispatchBoard({ type: "DESELECT", num });
+            } else if (board[num]["clicked"] == false && game.picks < 10) {
+                dispatchGame({ type: "INCREASEPICKCOUNT" });
+                dispatchBoard({ type: "SELECT", num });
+            } else {
+                console.log("Too much picks mr. greedy face");
+            }
         }
     };
 
     const resetDraws = () => {
-        Object.keys(state).forEach((num) => {
-            dispatch({ type: "DRAWRESET", num });
+        Object.keys(board).forEach((num) => {
+            dispatchBoard({ type: "DRAWRESET", num });
         });
     };
 
     const resetPicks = () => {
-        Object.keys(state).forEach((num) => {
-            setPickCount(0);
-            dispatch({ type: "PICKRESET", num });
-        });
+        if (game.drawing === false) {
+            dispatchGame({ type: "RESETPICKCOUNT" });
+            Object.keys(board).forEach((num) => {
+                dispatchBoard({ type: "PICKRESET", num });
+            });
+        }
     };
 
     const handleDraws = () => {
@@ -46,22 +44,23 @@ function App() {
 
         let draws = DrawEngine();
         let timer = 0;
-
+        dispatchGame({ type: "STARTDRAWING" });
         draws.forEach((num) => {
             num = num.toString();
-            setTimeout(() => dispatch({ type: "DRAW", num }), timer);
+            setTimeout(() => dispatchBoard({ type: "DRAW", num }), timer);
             timer += 300;
         });
+        setTimeout(() => dispatchGame({ type: "FINISHDRAWING" }), 6500);
     };
 
     return (
         <>
             <Grid>
-                {Object.keys(state).map((num) => (
+                {Object.keys(board).map((num) => (
                     <Square
                         key={num.key}
-                        clicked={state[num]["clicked"]}
-                        drawn={state[num]["drawn"]}
+                        clicked={board[num]["clicked"]}
+                        drawn={board[num]["drawn"]}
                         onClick={() => handleClick(num)}>
                         {num}
                     </Square>
