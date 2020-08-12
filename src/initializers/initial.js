@@ -9,6 +9,7 @@ for (let i = 1; i <= 80; i++) {
 
 gameState.picks = 0;
 gameState.drawing = false;
+gameState.credit = 0;
 
 master[0] = {...board}
 master[1] = {...gameState}

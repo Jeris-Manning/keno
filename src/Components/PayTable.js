@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import pays from "./pays";
+import pays from "../assets/pays";
 
 const PayTable = ({ picks }) => {
     console.log(pays[picks]);
