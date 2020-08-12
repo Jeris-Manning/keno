@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import DrawEngine from "./DrawEngine";
+import Frog from "../assets/frogpadsquare.jpg";
+import Pad from "../assets/justpadsquare.jpg";
 
 const Board = ({ board, game, dispatchBoard, dispatchGame }) => {
     let drawCheck = !game.drawing;
@@ -55,7 +57,15 @@ const Board = ({ board, game, dispatchBoard, dispatchGame }) => {
                         clicked={board[num]["clicked"]}
                         drawn={board[num]["drawn"]}
                         onClick={() => (drawCheck ? handleClick(num) : null)}>
-                        {num}
+                        {board[num]["clicked"] === true ? (
+                            board[num]["drawn"] === true ? (
+                                <img src={Frog} alt="frog" />
+                            ) : (
+                                <img src={Pad} alt="lily pad" />
+                            )
+                        ) : (
+                            num
+                        )}
                     </Square>
                 ))}
             </Grid>
@@ -92,7 +102,7 @@ const Square = styled.div`
     width: 80px;
     height: 80px;
     margin: 2px;
-    background: ${(props) => (props.drawn ? "black" : "steelblue")};
+    background: ${(props) => (props.drawn ? "green" : "steelblue")};
     // background: steelblue;
     border-radius: 4px;
     display: flex;
