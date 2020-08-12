@@ -4,6 +4,7 @@ import master from "./initializers/initial";
 import boardReducer from "./reducers/boardReducer";
 import gameReducer from "./reducers/gameReducer";
 import DrawEngine from "./Components/DrawEngine";
+import PayTable from "./Components/PayTable";
 
 function App() {
     const [board, dispatchBoard] = useReducer(boardReducer, master[0]);
@@ -54,25 +55,37 @@ function App() {
     };
 
     return (
-        <>
-            <Grid>
-                {Object.keys(board).map((num) => (
-                    <Square
-                        key={num.key}
-                        clicked={board[num]["clicked"]}
-                        drawn={board[num]["drawn"]}
-                        onClick={() => handleClick(num)}>
-                        {num}
-                    </Square>
-                ))}
-            </Grid>
-            <DrawBtn onClick={() => handleDraws()}>DRAW</DrawBtn>
-            <ResetBtn onClick={() => resetPicks()}>Clear Picks</ResetBtn>
-        </>
+        <Display>
+            <Board>
+                <Grid>
+                    {Object.keys(board).map((num) => (
+                        <Square
+                            key={num.key}
+                            clicked={board[num]["clicked"]}
+                            drawn={board[num]["drawn"]}
+                            onClick={() => handleClick(num)}>
+                            {num}
+                        </Square>
+                    ))}
+                </Grid>
+                <DrawBtn onClick={() => handleDraws()}>DRAW</DrawBtn>
+                <ResetBtn onClick={() => resetPicks()}>Clear Picks</ResetBtn>
+            </Board>
+            <PayTable picks = {game.picks}/>
+        </Display>
     );
 }
 
 export default App;
+
+const Display = styled.div`
+    display: flex;
+`;
+
+const Board = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
 const Grid = styled.div`
     width: 890px;
