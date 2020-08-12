@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import master from "./initializers/initial";
 import boardReducer from "./reducers/boardReducer";
@@ -16,7 +16,7 @@ function App() {
             if (board[num]["clicked"]) {
                 dispatchGame({ type: "DECREASEPICKCOUNT" });
                 dispatchBoard({ type: "DESELECT", num });
-            } else if (board[num]["clicked"] == false && game.picks < 10) {
+            } else if (board[num]["clicked"] === false && game.picks < 10) {
                 dispatchGame({ type: "INCREASEPICKCOUNT" });
                 dispatchBoard({ type: "SELECT", num });
             } else {
@@ -80,6 +80,7 @@ export default App;
 
 const Display = styled.div`
     display: flex;
+    flex-wrap: wrap;
 `;
 
 const Board = styled.div`
@@ -88,6 +89,7 @@ const Board = styled.div`
 `;
 
 const Grid = styled.div`
+max-width: 100vw;
     width: 890px;
     height: 710px;
     display: flex;

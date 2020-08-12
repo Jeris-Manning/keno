@@ -16,7 +16,7 @@ const PayTable = ({ picks }) => {
                     ))}
                 </div>
             ) : (
-                <h1></h1>
+                <></>
             )}
         </Table>
     );
