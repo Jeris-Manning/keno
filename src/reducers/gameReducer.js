@@ -25,6 +25,12 @@ const gameReducer = function (state, action) {
                 ...state,
                 drawing: false,
             };
+        case "ADDCREDIT":
+          console.log(action, "ACTION")
+            return {
+                ...state,
+                credit: (state.credit + action.credits),
+            };
         default:
             return state;
     }

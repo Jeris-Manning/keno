@@ -22,5 +22,6 @@ export default App;
 
 const Display = styled.div`
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
+    width: 100vw;
 `;
