@@ -18,7 +18,9 @@ const gameReducer = function (state, action) {
         case "STARTDRAWING":
             return {
                 ...state,
+                credit: state.credit - state.wager,
                 drawing: true,
+
             };
         case "FINISHDRAWING":
             return {
@@ -26,11 +28,29 @@ const gameReducer = function (state, action) {
                 drawing: false,
             };
         case "ADDCREDIT":
-          console.log(action, "ACTION")
+            console.log(action, "ACTION");
             return {
                 ...state,
-                credit: (state.credit + action.credits),
+                credit: state.credit + action.credits,
             };
+        case "WAGERUP":
+            if (state.wager < 10) {
+                return {
+                    ...state,
+                    wager: state.wager + 1,
+                };
+            } else {
+                return { ...state };
+            }
+        case "WAGERDOWN":
+            if (state.wager > 1) {
+                return {
+                    ...state,
+                    wager: state.wager - 1,
+                };
+            } else {
+                return { ...state };
+            }
         default:
             return state;
     }

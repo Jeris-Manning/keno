@@ -58,12 +58,16 @@ const BoardControl = ({ game, dispatchGame }) => {
                 handleClick={handleClick}
                 drawCheck={drawCheck}
             />
-            <DrawBtn onClick={() => (drawCheck ? handleDraws() : null)}>
-                DRAW
-            </DrawBtn>
-            <ResetBtn onClick={() => (drawCheck ? resetPicks() : null)}>
-                Clear Picks
-            </ResetBtn>
+            <ButtonBox>
+                <DrawBtn onClick={() => (drawCheck ? handleDraws() : null)}>
+                    DRAW
+                </DrawBtn>
+                <ResetBtn onClick={() => (drawCheck ? resetPicks() : null)}>
+                    Clear Picks
+                </ResetBtn>
+
+
+            </ButtonBox>
         </div>
     );
 };
@@ -88,4 +92,8 @@ const ResetBtn = styled.button`
     align-items: center;
     font-size: 2rem;
     color: "red";
+`;
+
+const ButtonBox = styled.div`
+    display: flex;
 `;
