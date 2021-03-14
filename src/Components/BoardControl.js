@@ -21,17 +21,24 @@ const BoardControl = ({ game, dispatchGame }) => {
         resetDraws();
 
         let draws = DrawEngine();
+        console.log(draws, "DRAWS");
         let timer = 0;
 
         draws.forEach((num) => {
-            num = num.toString();
-            setTimeout(() => dispatchBoard({ type: "DRAW", num }), timer);
+            // num = num.toString();
+            setTimeout(() => {
+                dispatchBoard({ type: "DRAW", num });
+                if (board[num].clicked) {
+                    dispatchGame({ type: "ADD_HIT" });
+                }
+            }, timer);
             timer += 300;
         });
         setTimeout(() => dispatchGame({ type: "FINISHDRAWING" }), 6500);
     };
 
     const handleClick = (num) => {
+        console.log(num, "NUM");
         resetDraws();
         if (board[num]["clicked"]) {
             dispatchGame({ type: "DECREASEPICKCOUNT" });
@@ -48,6 +55,7 @@ const BoardControl = ({ game, dispatchGame }) => {
         Object.keys(board).forEach((num) => {
             dispatchBoard({ type: "DRAWRESET", num });
         });
+        dispatchGame({ type: "RESET_HITS" });
     };
 
     return (
@@ -65,8 +73,6 @@ const BoardControl = ({ game, dispatchGame }) => {
                 <ResetBtn onClick={() => (drawCheck ? resetPicks() : null)}>
                     Clear Picks
                 </ResetBtn>
-
-
             </ButtonBox>
         </div>
     );

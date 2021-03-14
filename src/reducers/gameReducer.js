@@ -20,8 +20,19 @@ const gameReducer = function (state, action) {
                 ...state,
                 credit: state.credit - state.wager,
                 drawing: true,
-
             };
+        case "ADD_HIT":
+            return {
+                ...state,
+                hits: state.hits + 1,
+            };
+
+        case "RESET_HITS":
+            return {
+                ...state,
+                hits: 0,
+            };
+
         case "FINISHDRAWING":
             return {
                 ...state,

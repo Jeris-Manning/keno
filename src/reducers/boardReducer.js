@@ -27,6 +27,7 @@ const boardReducer = function (state, action) {
                     drawn: true,
                 },
             };
+
         case "DRAWRESET":
             return {
                 ...state,
