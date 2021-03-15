@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Frog from "../assets/frogpadsquare.jpg";
 import Pad from "../assets/justpadsquare.jpg";
 
-const Board = ({ board, handleClick, drawCheck }) => {
+const Board = ({ boardState, handleClick, drawCheck }) => {
     let gridRows = [];
     var k = 0;
     for (let i = 0; i < 8; i++) {
@@ -16,18 +16,19 @@ const Board = ({ board, handleClick, drawCheck }) => {
 
     return (
         <GameBoard>
+
             {gridRows.map((row, idx) => (
                 <Row key={idx}>
                     {row.map((num) => (
                         <Square
                             key={num}
-                            clicked={board[num]["clicked"]}
-                            drawn={board[num]["drawn"]}
+                            clicked={boardState?.[num]?.clicked}
+                            drawn={boardState?.[num]?.drawn}
                             onClick={() =>
                                 drawCheck ? handleClick(num) : null
                             }>
-                            {board[num]["clicked"] === true ? (
-                                board[num]["drawn"] === true ? (
+                            {boardState[num].clicked === true ? (
+                                boardState[num].drawn === true ? (
                                     <img
                                         key={num + "frog"}
                                         src={Frog}

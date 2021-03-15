@@ -1,51 +1,50 @@
+let temp = {};
+for (let i = 1; i <= 80; i++) {
+    temp[i] = { clicked: false, drawn: false };
+}
+
+export const boardInit = {
+    ...temp,
+};
+
 const boardReducer = function (state, action) {
     switch (action.type) {
         case "SELECT":
             return {
                 ...state,
                 [action.num]: {
-                    key: action.num,
+                    ...state[action.num],
                     clicked: true,
-                    drawn: state[action.num]["drawn"],
                 },
             };
         case "DESELECT":
             return {
                 ...state,
                 [action.num]: {
-                    key: action.num,
+                    ...state[action.num],
                     clicked: false,
-                    drawn: state[action.num]["drawn"],
                 },
             };
         case "DRAW":
             return {
                 ...state,
                 [action.num]: {
-                    key: action.num,
-                    clicked: state[action.num]["clicked"],
+                    ...state[action.num],
                     drawn: true,
                 },
             };
 
-        case "DRAWRESET":
+        case "RESET_DRAWS":
             return {
                 ...state,
                 [action.num]: {
-                    key: action.num,
-                    clicked: state[action.num]["clicked"],
+                    ...state[action.num],
                     drawn: false,
                 },
             };
-        case "PICKRESET":
-            return {
-                ...state,
-                [action.num]: {
-                    key: action.num,
-                    clicked: false,
-                    drawn: false,
-                },
-            };
+        case "RESET_PICKS":
+            return boardInit;
+
         default:
             return state;
     }

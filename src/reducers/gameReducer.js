@@ -1,21 +1,29 @@
+export const gameInit = {
+    picks: 0,
+    drawing: false,
+    credit: 0,
+    wager: 1,
+    hits: 0,
+};
+
 const gameReducer = function (state, action) {
     switch (action.type) {
-        case "INCREASEPICKCOUNT":
+        case "INCREASE_PICK_COUNT":
             return {
                 ...state,
                 picks: state.picks + 1,
             };
-        case "DECREASEPICKCOUNT":
+        case "DECREASE_PICK_COUNT":
             return {
                 ...state,
                 picks: state.picks - 1,
             };
-        case "RESETPICKCOUNT":
+        case "RESET_PICK_COUNT":
             return {
                 ...state,
                 picks: 0,
             };
-        case "STARTDRAWING":
+        case "START_DRAWING":
             return {
                 ...state,
                 credit: state.credit - state.wager,
@@ -33,18 +41,18 @@ const gameReducer = function (state, action) {
                 hits: 0,
             };
 
-        case "FINISHDRAWING":
+        case "FINISH_DRAWING":
             return {
                 ...state,
                 drawing: false,
             };
-        case "ADDCREDIT":
+        case "ADD_CREDIT":
             console.log(action, "ACTION");
             return {
                 ...state,
                 credit: state.credit + action.credits,
             };
-        case "WAGERUP":
+        case "WAGER_UP":
             if (state.wager < 10) {
                 return {
                     ...state,
@@ -53,7 +61,7 @@ const gameReducer = function (state, action) {
             } else {
                 return { ...state };
             }
-        case "WAGERDOWN":
+        case "WAGER_DOWN":
             if (state.wager > 1) {
                 return {
                     ...state,

@@ -1,29 +1,35 @@
 import React, { useReducer } from "react";
 import styled from "styled-components";
-import master from "./initializers/initial";
-import gameReducer from "./reducers/gameReducer";
+import boardReducer, { boardInit } from "./reducers/boardReducer";
+import gameReducer, { gameInit } from "./reducers/gameReducer";
 import PayTable from "./Components/PayTable";
 import BoardControl from "./Components/BoardControl";
 import Wager from "./Components/Wager";
 import CashSlot from "./Components/CashSlot";
 
 function App() {
-    const [game, dispatchGame] = useReducer(gameReducer, master[1]);
+    const [boardState, dispatchBoard] = useReducer(boardReducer, boardInit);
+    const [gameState, dispatchGame] = useReducer(gameReducer, gameInit);
 
     return (
         <>
             <Display>
-                <BoardControl game={game} dispatchGame={dispatchGame} />
+                <BoardControl
+                    gameState={gameState}
+                    dispatchGame={dispatchGame}
+                    boardState={boardState}
+                    dispatchBoard={dispatchBoard}
+                />
                 <section>
                     <PayTable
-                        picks={game.picks}
-                        credit={game.credit}
-                        wager={game.wager}
+                        picks={gameState.picks}
+                        credit={gameState.credit}
+                        wager={gameState.wager}
                     />
                 </section>
             </Display>
-            <Wager game={game} dispatchGame={dispatchGame} />
-            <CashSlot game={game} dispatchGame={dispatchGame} />
+            <Wager gameState={gameState} dispatchGame={dispatchGame} />
+            <CashSlot gameState={gameState} dispatchGame={dispatchGame} />
         </>
     );
 }

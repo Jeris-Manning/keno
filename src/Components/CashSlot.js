@@ -1,16 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const CashSlot = ({ game, dispatchGame }) => {
+const CashSlot = ({ gameState, dispatchGame }) => {
     const addCredit = (credits) => {
-        dispatchGame({ type: "ADDCREDIT", credits });
+        dispatchGame({ type: "ADD_CREDIT", credits });
     };
 
-    const denoms = [];
+    const denoms = [5, 10, 20];
 
-    for (let i = 5; i <= 20; i *= 2) {
-        denoms.push(i);
-    }
     return (
         <div>
             <h2>Insert</h2>
