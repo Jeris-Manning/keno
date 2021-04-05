@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Board from "./Board";
 import DrawEngine from "./DrawEngine";
+import pays from "../assets/pays";
 
-const BoardControl = ({ gameState, dispatchGame, boardState, dispatchBoard }) => {
-    let drawCheck = !gameState.drawing;
+//
+// USE USE EFFECT FOR IMMEDIATE STATE UPDATE
+//
+const BoardControl = ({
+    gameState,
+    dispatchGame,
+    boardState,
+    dispatchBoard,
+}) => {
+    // let drawCount = 0;
+    // const [drawsReady, setDrawsReady] = useState(false);
+
+    let draws = [];
 
     const resetPicks = () => {
         dispatchGame({ type: "RESET_PICK_COUNT" });
         dispatchBoard({ type: "RESET_PICKS" });
     };
 
+    // function timeout(ms) {
+    //     return new Promise((res) => setTimeout(res, ms));
+    // }
+
     const handleDraws = () => {
         dispatchGame({ type: "START_DRAWING" });
+        // setDrawsReady(true);
         resetDraws();
 
-        let draws = DrawEngine();
+        draws = DrawEngine();
         let timer = 0;
 
         draws.forEach((num) => {
@@ -24,14 +41,46 @@ const BoardControl = ({ gameState, dispatchGame, boardState, dispatchBoard }) =>
                 if (boardState[num].clicked) {
                     dispatchGame({ type: "ADD_HIT" });
                 }
+
+                // console.log(drawCount, "DRAW COUNT");
             }, timer);
             timer += 300;
+            // console.log(timer, "TIMER");
         });
-        setTimeout(() => dispatchGame({ type: "FINISH_DRAWING" }), 6500);
+        if (timer >= 6000) {
+            settleDraw();
+        }
+    };
+    // console.log(pays?.[gameState.picks]?.gameState.hits, "THE WIN");
+    let payChart = pays[gameState.picks];
+
+    // console.log(payChart, "PAY CHART");
+    const settleDraw = () => {
+        let win = payChart[gameState.hits];
+        if (win > 0) {
+            dispatchGame({ type: "SET_WIN", win });
+            console.log(win, "WE WIN");
+            dispatchGame({ type: "FINISH_DRAWING" });
+        } else {
+            dispatchGame({ type: "SET_WIN", win });
+            console.log(`We only hit ${gameState.hits}. Maybe next time!`);
+            dispatchGame({ type: "FINISH_DRAWING" });
+        }
     };
 
+    // useEffect(() => {
+    //     // console.log(drawCount, drawsReady, "eFFECTS ZONE");
+    //     if (drawCount === 20 && drawsReady) {
+    //         console.log("USING EFFECT");
+    //         settleDraw();
+    //         setDrawsReady(false);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [drawCount, drawsReady]);
+
     const handleClick = (num) => {
-        resetDraws();
+      console.log(num, "NUM")
+        // resetDraws();
         if (boardState[num].clicked) {
             dispatchGame({ type: "DECREASE_PICK_COUNT" });
             dispatchBoard({ type: "DESELECT", num });
@@ -56,15 +105,22 @@ const BoardControl = ({ gameState, dispatchGame, boardState, dispatchBoard }) =>
                 boardState={boardState}
                 gameState={gameState}
                 handleClick={handleClick}
-                drawCheck={drawCheck}
             />
             <ButtonBox>
-                <DrawBtn onClick={() => (drawCheck ? handleDraws() : null)}>
+                <DrawBtn
+                    // onClick={() => (gameState.drawing ? null : handleDraws())}
+                    onClick={() => {
+                        if (!gameState.drawing) {
+                            handleDraws();
+                        }
+                    }}>
                     DRAW
                 </DrawBtn>
-                <ResetBtn onClick={() => (drawCheck ? resetPicks() : null)}>
+                <ResetBtn
+                    onClick={() => (gameState.drawing ? null : resetPicks())}>
                     Clear Picks
                 </ResetBtn>
+                <h2>{`You won ${gameState.win} credits`}</h2>
             </ButtonBox>
         </div>
     );

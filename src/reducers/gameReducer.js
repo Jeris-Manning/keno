@@ -4,6 +4,7 @@ export const gameInit = {
     credit: 0,
     wager: 1,
     hits: 0,
+    win: 0,
 };
 
 const gameReducer = function (state, action) {
@@ -40,7 +41,11 @@ const gameReducer = function (state, action) {
                 ...state,
                 hits: 0,
             };
-
+        case "SET_WIN":
+            return {
+                ...state,
+                win: action.credits,
+            };
         case "FINISH_DRAWING":
             return {
                 ...state,

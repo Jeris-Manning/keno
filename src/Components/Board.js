@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Frog from "../assets/frogpadsquare.jpg";
-import Pad from "../assets/justpadsquare.jpg";
 
-const Board = ({ boardState, handleClick, drawCheck }) => {
+import Square from "./Square";
+
+const Board = ({ boardState, gameState, handleClick }) => {
     let gridRows = [];
     var k = 0;
     for (let i = 0; i < 8; i++) {
@@ -16,35 +16,17 @@ const Board = ({ boardState, handleClick, drawCheck }) => {
 
     return (
         <GameBoard>
-
             {gridRows.map((row, idx) => (
                 <Row key={idx}>
                     {row.map((num) => (
                         <Square
+                            gameState={gameState}
                             key={num}
+                            num={num}
                             clicked={boardState?.[num]?.clicked}
                             drawn={boardState?.[num]?.drawn}
-                            onClick={() =>
-                                drawCheck ? handleClick(num) : null
-                            }>
-                            {boardState[num].clicked === true ? (
-                                boardState[num].drawn === true ? (
-                                    <img
-                                        key={num + "frog"}
-                                        src={Frog}
-                                        alt="frog"
-                                    />
-                                ) : (
-                                    <img
-                                        key={num + "pad"}
-                                        src={Pad}
-                                        alt="lily pad"
-                                    />
-                                )
-                            ) : (
-                                num
-                            )}
-                        </Square>
+                            handleClick={handleClick}
+                        />
                     ))}
                 </Row>
             ))}
@@ -66,23 +48,4 @@ const Row = styled.div`
     background: cornflowerblue;
     max-width: 100vw;
     width: 890px;
-`;
-
-const Square = styled.div`
-    width: 80px;
-    height: 80px;
-    margin: 2px;
-    font-family: "Chewy", cursive;
-    background: ${(props) => (props.drawn ? "cornflowerblue" : "#2f4b24")};
-    border-radius: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
-    color: #d5c5ad;
-    box-shadow: ${(props) =>
-        props.drawn ? "none" : "-4px 4px 5px -3px black"};
-    img {
-        border-radius: 7px;
-    }
 `;

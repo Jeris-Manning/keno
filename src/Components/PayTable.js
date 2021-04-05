@@ -9,11 +9,15 @@ const PayTable = ({ picks, credit, wager }) => {
                 <h1>Numbers Picked: {picks}</h1>
                 {picks > 1 ? (
                     <div>
-                        {Object.keys(pays[picks]).map((hit) => (
-                            <h2 key={`${picks}+${hit}`}>
-                                {hit}: ${pays[picks][hit] * wager}
-                            </h2>
-                        ))}
+                        {Object.keys(pays[picks]).map((hit) => {
+                            return (
+                                pays[picks][hit] > 0 && (
+                                    <h2 key={`${picks}+${hit}`}>
+                                        {hit}: ${pays[picks][hit] * wager}
+                                    </h2>
+                                )
+                            );
+                        })}
                     </div>
                 ) : (
                     <></>
