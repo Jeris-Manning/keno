@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const CashSlot = ({ gameState, dispatchGame }) => {
+const CashSlot = ({ dispatch }) => {
     const addCredit = (credits) => {
-        dispatchGame({ type: "ADD_CREDIT", credits });
+        dispatch({ type: "ADD_CREDIT", credits });
     };
 
     const denoms = [5, 10, 20];

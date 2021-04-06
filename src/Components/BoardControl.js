@@ -7,120 +7,92 @@ import pays from "../assets/pays";
 //
 // USE USE EFFECT FOR IMMEDIATE STATE UPDATE
 //
-const BoardControl = ({
-    gameState,
-    dispatchGame,
-    boardState,
-    dispatchBoard,
-}) => {
-    // let drawCount = 0;
-    // const [drawsReady, setDrawsReady] = useState(false);
-
+const BoardControl = ({ state, dispatch }) => {
     let draws = [];
+    let hits = 0;
+    let payChart = {};
 
-    const resetPicks = () => {
-        dispatchGame({ type: "RESET_PICK_COUNT" });
-        dispatchBoard({ type: "RESET_PICKS" });
-    };
+    function resetPicks() {
+        dispatch({ type: "RESET_PICK_COUNT" });
+        dispatch({ type: "RESET_PICKS" });
+    }
 
-    // function timeout(ms) {
-    //     return new Promise((res) => setTimeout(res, ms));
-    // }
+    function resetDraws() {
+        Object.keys(state.board).forEach((num) => {
+            dispatch({ type: "RESET_DRAWS", num });
+        });
+        // dispatch({ type: "RESET_HITS" });
+        hits = 0;
+    }
 
-    const handleDraws = () => {
-        dispatchGame({ type: "START_DRAWING" });
-        // setDrawsReady(true);
+    //PROBLEM SEEMS TO BE IN THIS DARN TIMER FUNK
+
+    function handleDraws() {
+        payChart = pays[state.picks];
+        dispatch({ type: "START_DRAWING" });
         resetDraws();
 
         draws = DrawEngine();
-        let timer = 0;
+        let timer = 500;
 
         draws.forEach((num) => {
             setTimeout(() => {
-                dispatchBoard({ type: "DRAW", num });
-                if (boardState[num].clicked) {
-                    dispatchGame({ type: "ADD_HIT" });
+                dispatch({ type: "DRAW", num });
+                if (state.board[num].clicked) {
+                    // dispatch({ type: "ADD_HIT" });
+                    hits++;
                 }
-
-                // console.log(drawCount, "DRAW COUNT");
+                timer += 500;
             }, timer);
-            timer += 300;
-            // console.log(timer, "TIMER");
         });
         if (timer >= 6000) {
             settleDraw();
         }
-    };
-    // console.log(pays?.[gameState.picks]?.gameState.hits, "THE WIN");
-    let payChart = pays[gameState.picks];
+        console.log(timer, "CURReNT tIME");
+    }
 
-    // console.log(payChart, "PAY CHART");
-    const settleDraw = () => {
-        let win = payChart[gameState.hits];
+    function settleDraw() {
+        console.log(hits, "NUMBER OF HITS?");
+        let win = payChart[hits];
         if (win > 0) {
-            dispatchGame({ type: "SET_WIN", win });
+            dispatch({ type: "SET_WIN", win });
             console.log(win, "WE WIN");
-            dispatchGame({ type: "FINISH_DRAWING" });
+            dispatch({ type: "FINISH_DRAWING" });
         } else {
-            dispatchGame({ type: "SET_WIN", win });
-            console.log(`We only hit ${gameState.hits}. Maybe next time!`);
-            dispatchGame({ type: "FINISH_DRAWING" });
+            dispatch({ type: "SET_WIN", win });
+            console.log(`We only hit ${hits}. Maybe next time!`);
+            dispatch({ type: "FINISH_DRAWING" });
         }
-    };
+    }
 
-    // useEffect(() => {
-    //     // console.log(drawCount, drawsReady, "eFFECTS ZONE");
-    //     if (drawCount === 20 && drawsReady) {
-    //         console.log("USING EFFECT");
-    //         settleDraw();
-    //         setDrawsReady(false);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [drawCount, drawsReady]);
-
-    const handleClick = (num) => {
-      console.log(num, "NUM")
-        // resetDraws();
-        if (boardState[num].clicked) {
-            dispatchGame({ type: "DECREASE_PICK_COUNT" });
-            dispatchBoard({ type: "DESELECT", num });
-        } else if (boardState[num].clicked === false && gameState.picks < 10) {
-            dispatchGame({ type: "INCREASE_PICK_COUNT" });
-            dispatchBoard({ type: "SELECT", num });
+    function handleClick(num) {
+        if (state.board[num].clicked) {
+            dispatch({ type: "DECREASE_PICK_COUNT" });
+            dispatch({ type: "DESELECT", num });
+        } else if (state.board[num].clicked === false && state.picks < 10) {
+            dispatch({ type: "INCREASE_PICK_COUNT" });
+            dispatch({ type: "SELECT", num });
         } else {
             return null;
         }
-    };
-
-    const resetDraws = () => {
-        Object.keys(boardState).forEach((num) => {
-            dispatchBoard({ type: "RESET_DRAWS", num });
-        });
-        dispatchGame({ type: "RESET_HITS" });
-    };
+    }
 
     return (
         <div>
-            <Board
-                boardState={boardState}
-                gameState={gameState}
-                handleClick={handleClick}
-            />
+            <Board state={state} handleClick={handleClick} />
             <ButtonBox>
                 <DrawBtn
-                    // onClick={() => (gameState.drawing ? null : handleDraws())}
                     onClick={() => {
-                        if (!gameState.drawing) {
+                        if (!state.drawing) {
                             handleDraws();
                         }
                     }}>
                     DRAW
                 </DrawBtn>
-                <ResetBtn
-                    onClick={() => (gameState.drawing ? null : resetPicks())}>
+                <ResetBtn onClick={() => (state.drawing ? null : resetPicks())}>
                     Clear Picks
                 </ResetBtn>
-                <h2>{`You won ${gameState.win} credits`}</h2>
+                <h2>{`You won ${state.win} credits`}</h2>
             </ButtonBox>
         </div>
     );

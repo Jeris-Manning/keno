@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Frog from "../assets/frogpadsquare.jpg";
 import Pad from "../assets/justpadsquare.jpg";
 
-const Square = ({ drawn, clicked, num, gameState, handleClick }) => {
+const Square = ({ drawn, clicked, num, state, handleClick }) => {
     let art;
 
     if (clicked) {
@@ -19,7 +19,7 @@ const Square = ({ drawn, clicked, num, gameState, handleClick }) => {
     return (
         <SquareDiv
             drawn={drawn}
-            onClick={() => (gameState.drawing ? null : handleClick(num))}>
+            onClick={() => (state.drawing ? null : handleClick(num))}>
             {art}
         </SquareDiv>
     );

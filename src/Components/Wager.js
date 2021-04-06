@@ -1,13 +1,13 @@
 import React from "react";
 
-const Wager = ({ gameState, dispatchGame }) => {
+const Wager = ({ state, dispatch}) => {
     return (
         <>
-            <h1>{"Bet: " + gameState?.wager + " Credits"}</h1>
-            <button onClick={() => dispatchGame({ type: "WAGER_UP" })}>
+            <h1>{"Bet: " + state.wager + " Credits"}</h1>
+            <button onClick={() => dispatch({ type: "WAGER_UP" })}>
                 Bet Up
             </button>
-            <button onClick={() => dispatchGame({ type: "WAGER_DOWN" })}>
+            <button onClick={() => dispatch({ type: "WAGER_DOWN" })}>
                 Bet Down
             </button>
         </>

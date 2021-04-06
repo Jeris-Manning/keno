@@ -1,13 +1,19 @@
-export const gameInit = {
+let clearBoard = {};
+for (let i = 1; i <= 80; i++) {
+    clearBoard[i] = { clicked: false, drawn: false };
+}
+
+export const init = {
     picks: 0,
     drawing: false,
     credit: 0,
     wager: 1,
     hits: 0,
     win: 0,
+    board: { ...clearBoard },
 };
 
-const gameReducer = function (state, action) {
+const reducer = function (state, action) {
     switch (action.type) {
         case "INCREASE_PICK_COUNT":
             return {
@@ -44,7 +50,7 @@ const gameReducer = function (state, action) {
         case "SET_WIN":
             return {
                 ...state,
-                win: action.credits,
+                win: action.win,
             };
         case "FINISH_DRAWING":
             return {
@@ -75,9 +81,58 @@ const gameReducer = function (state, action) {
             } else {
                 return { ...state };
             }
+
+        case "SELECT":
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    [action.num]: { ...state.board[action.num], clicked: true },
+                },
+            };
+
+        case "DESELECT":
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    [action.num]: {
+                        ...state.board[action.num],
+                        clicked: false,
+                    },
+                },
+            };
+
+        case "DRAW":
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    [action.num]: {
+                        ...state.board[action.num],
+                        drawn: true,
+                    },
+                },
+            };
+
+        case "RESET_DRAWS":
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    [action.num]: {
+                        ...state.board[action.num],
+                        drawn: false,
+                    },
+                },
+            };
+
+        case "RESET_PICKS":
+            return { ...state, board: { ...clearBoard } };
+
         default:
             return state;
     }
 };
 
-export default gameReducer;
+export default reducer;

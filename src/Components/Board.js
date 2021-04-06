@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-
 import Square from "./Square";
 
-const Board = ({ boardState, gameState, handleClick }) => {
+const Board = ({ state, handleClick }) => {
     let gridRows = [];
     var k = 0;
     for (let i = 0; i < 8; i++) {
@@ -20,11 +19,11 @@ const Board = ({ boardState, gameState, handleClick }) => {
                 <Row key={idx}>
                     {row.map((num) => (
                         <Square
-                            gameState={gameState}
+                            state={state}
                             key={num}
                             num={num}
-                            clicked={boardState?.[num]?.clicked}
-                            drawn={boardState?.[num]?.drawn}
+                            clicked={state.board[num].clicked}
+                            drawn={state.board[num].drawn}
                             handleClick={handleClick}
                         />
                     ))}
