@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import styled from "styled-components";
-import reducer, { init } from "./reducer";
+import reducer, { init } from "./Utilities/reducer";
 import PayTable from "./Components/PayTable";
 import BoardControl from "./Components/BoardControl";
 import Wager from "./Components/Wager";
@@ -15,9 +15,7 @@ function App() {
                 <BoardControl state={state} dispatch={dispatch} />
                 <section>
                     <PayTable
-                        picks={state.picks}
-                        credit={state.credit}
-                        wager={state.wager}
+                        state={state}
                     />
                 </section>
             </Display>

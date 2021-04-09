@@ -1,9 +1,10 @@
 import React from "react";
+import { toCashString } from "../Utilities/cashConvert";
 
-const Wager = ({ state, dispatch}) => {
+const Wager = ({ state, dispatch }) => {
     return (
         <>
-            <h1>{"Bet: " + state.wager + " Credits"}</h1>
+            <h1>{"Bet: " + toCashString(state.wager * 0.25)}</h1>
             <button onClick={() => dispatch({ type: "WAGER_UP" })}>
                 Bet Up
             </button>

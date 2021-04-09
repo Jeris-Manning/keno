@@ -39,12 +39,14 @@ const GameBoard = styled.div`
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    max-width: 100vw;
+    width: 890px;
 `;
 
 const Row = styled.div`
     display: flex;
     justify-content: space-evenly;
     background: cornflowerblue;
-    max-width: 100vw;
-    width: 890px;
+    // max-width: 100vw;
+    // width: 890px;
 `;

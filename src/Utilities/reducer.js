@@ -51,7 +51,14 @@ const reducer = function (state, action) {
             return {
                 ...state,
                 win: action.win,
+                credit: state.credit + action.win,
             };
+        case "RESET_WIN":
+            return {
+                ...state,
+                win: 0,
+            };
+
         case "FINISH_DRAWING":
             return {
                 ...state,
@@ -108,8 +115,8 @@ const reducer = function (state, action) {
                 ...state,
                 board: {
                     ...state.board,
-                    [action.num]: {
-                        ...state.board[action.num],
+                    [action.pick]: {
+                        ...state.board[action.pick],
                         drawn: true,
                     },
                 },
