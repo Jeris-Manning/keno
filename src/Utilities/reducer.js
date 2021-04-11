@@ -30,6 +30,10 @@ const reducer = function (state, action) {
                 ...state,
                 picks: 0,
             };
+
+        case "BET_THE_REST":
+            return { ...state, wager: state.credit };
+
         case "START_DRAWING":
             return {
                 ...state,

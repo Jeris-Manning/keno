@@ -22,28 +22,38 @@ const BoardControl = ({ state, dispatch }) => {
         hits = 0;
     }
 
-    function handleDraws() {
-        payChart = pays[state.picks];
-        dispatch({ type: "START_DRAWING" });
-        dispatch({ type: "RESET_WIN" });
-        resetDraws();
+    function handleDrawButtonClick() {
+        if (state.picks < 2) {
+            return;
+        }
+        if (state.credit < 1) {
+            window.alert("Please Insert Cash to Play");
+        } else if (state.wager > state.credit) {
+            window.alert("Please Lower Wager or Insert Cash to Play");
+            dispatch({ type: "BET_THE_REST" });
+        } else {
+            payChart = pays[state.picks];
+            dispatch({ type: "START_DRAWING" });
+            dispatch({ type: "RESET_WIN" });
+            resetDraws();
 
-        draws = DrawEngine();
+            draws = DrawEngine();
 
-        let clearDraw = setInterval(drawNumbers, 100);
-        let drawCount = 0;
+            let clearDraw = setInterval(drawNumbers, 100);
+            let drawCount = 0;
 
-        function drawNumbers() {
-            if (drawCount < 20) {
-                let pick = draws[drawCount];
-                dispatch({ type: "DRAW", pick });
-                if (state.board[pick].clicked) {
-                    hits++;
+            function drawNumbers() {
+                if (drawCount < 20) {
+                    let pick = draws[drawCount];
+                    dispatch({ type: "DRAW", pick });
+                    if (state.board[pick].clicked) {
+                        hits++;
+                    }
+                    drawCount++;
+                } else {
+                    clearInterval(clearDraw);
+                    settleDraw();
                 }
-                drawCount++;
-            } else {
-                clearInterval(clearDraw);
-                settleDraw();
             }
         }
     }
@@ -85,7 +95,7 @@ const BoardControl = ({ state, dispatch }) => {
                 <DrawBtn
                     onClick={() => {
                         if (!state.drawing) {
-                            handleDraws();
+                            handleDrawButtonClick();
                         }
                     }}>
                     DRAW

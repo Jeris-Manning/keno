@@ -5,31 +5,28 @@ import pays from "../assets/pays";
 
 const PayTable = ({ state }) => {
     return (
-        <>
-            <Table>
-                <h1>Numbers Picked: {state.picks}</h1>
-                {state.picks > 1 ? (
-                    <div>
-                        {Object.keys(pays[state.picks]).map((hit) => {
-                            return (
-                                pays[state.picks][hit] > 0 && (
-                                    <h2 key={`${state.picks}+${hit}`}>
-                                        {`${hit}: ${toCashString(
-                                            pays[state.picks][hit] *
-                                                state.wager *
-                                                0.25
-                                        )}`}
-                                    </h2>
-                                )
-                            );
-                        })}
-                    </div>
-                ) : (
-                    <></>
-                )}
-            </Table>
-            <h1>{"Credits: " + toCashString(state.credit * 0.25)}</h1>
-        </>
+        <Table>
+            <h1>Numbers Picked: {state.picks}</h1>
+            {state.picks > 1 ? (
+                <div>
+                    {Object.keys(pays[state.picks]).map((hit) => {
+                        return (
+                            pays[state.picks][hit] > 0 && (
+                                <h2 key={`${state.picks}+${hit}`}>
+                                    {`${hit}: ${toCashString(
+                                        pays[state.picks][hit] *
+                                            state.wager *
+                                            0.25
+                                    )}`}
+                                </h2>
+                            )
+                        );
+                    })}
+                </div>
+            ) : (
+                <></>
+            )}
+        </Table>
     );
 };
 
