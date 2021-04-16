@@ -40,13 +40,15 @@ const GameBoard = styled.div`
     flex-direction: column;
     cursor: pointer;
     max-width: 100vw;
-    width: 890px;
+    // width: 890px;
+    width: 1000px;
 `;
 
 const Row = styled.div`
     display: flex;
     justify-content: space-evenly;
-    background: cornflowerblue;
+    // background: cornflowerblue;
+    background: #886d57;
     // max-width: 100vw;
     // width: 890px;
 `;

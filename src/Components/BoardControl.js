@@ -73,6 +73,14 @@ const BoardControl = ({ state, dispatch }) => {
     }
 
     function handleClick(num) {
+        if (state.drawing) {
+            return;
+        }
+        console.log(draws, "DRAWS");
+        if (draws !== []) {
+            resetDraws();
+        }
+
         if (state.board[num].clicked) {
             dispatch({ type: "DECREASE_PICK_COUNT" });
             dispatch({ type: "DESELECT", num });
