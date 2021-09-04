@@ -8,41 +8,40 @@ import Wager from "./Components/Wager";
 import CashSlot from "./Components/CashSlot";
 
 function App() {
-    const [state, dispatch] = useReducer(reducer, init);
+  const [state, dispatch] = useReducer(reducer, init);
 
-    return (
-        <AppDiv>
-            <div>
-                <Display>
-                    <BoardControl state={state} dispatch={dispatch} />
-                    <section>
-                        <PayTable state={state} />
-                        <PlayerCredits className="credit" state={state} />
-                        <CashSlot className="credit" dispatch={dispatch} />
-                    </section>
-                </Display>
-                <Wager state={state} dispatch={dispatch} />
-            </div>
-        </AppDiv>
-    );
+  return (
+    <AppDiv>
+      <Display>
+        <BoardControl state={state} dispatch={dispatch} />
+        <section>
+          <PayTable state={state} />
+          <PlayerCredits className="credit" state={state} />
+          <CashSlot className="credit" dispatch={dispatch} />
+        </section>
+      </Display>
+      <Wager state={state} dispatch={dispatch} />
+    </AppDiv>
+  );
 }
 
 export default App;
 
 const AppDiv = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
 `;
 
 const Display = styled.div`
-    display: flex;
-    flex-direction: row;
-    // section {
-    //     display: flex;
-    //     flex-direction: column;
-    //     .credit {
-    //         margin-left: 50px;
-    //     }
-    }
+  display: flex;
+  flex-direction: row;
+  border: solid 2px red;
+  // section {
+  //     display: flex;
+  //     flex-direction: column;
+  //     .credit {
+  //         margin-left: 50px;
+  //     }
 `;
