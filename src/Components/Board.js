@@ -57,7 +57,7 @@ const BoardClamp = styled.div`
   flex-direction: column;
   position: relative;
   width: 1100px;
-  height: 810px;
+  height: 720px;
   left: 20px;
   /* margin-left: -50px; */
   /* padding-left: -300px; */
@@ -98,7 +98,7 @@ const Row = styled.div`
 const BottomDirt = styled.div`
   /* border: solid pink 3px; */
   position: absolute;
-  bottom: 91px;
+  bottom: 1px;
   left: 2px;
   width: 884px;
   height: 72px;
